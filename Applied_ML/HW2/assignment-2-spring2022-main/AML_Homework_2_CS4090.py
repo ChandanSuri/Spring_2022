@@ -231,7 +231,7 @@ print(f"Number of rows that had to be removed because of any missing values: {nu
 print(f"Percentage of rows removed that had missing values: {num_rows_removed*100/original_num_rows_in_game_data}")
 
 
-# As we can see above, I have decided to remove the rows with any missing values rather than imputing those values in the data that are missing. This decision is based on the fact that the percentage of rows removed (0.38%) is really less in comparison to the number of rows that we have in our dataset. Imputing our dataset just because of these small number of rows could rather introduce some imbalances in our dataset rather than help much. If the number of rows with missing values were quite high such that rmeoving those rows would be a huge/moderate data loss, then, I would have just imputed those values. However, that's not the case here, so, I have decided to remove those rows with missing values rather than impute the values for the missing data in the original game data provided.
+# As we can see above, I have decided to remove the rows with any missing values rather than imputing those values in the data that are missing. This decision is based on the fact that the percentage of rows removed (0.38%) is really less in comparison to the number of rows that we have in our dataset. Imputing our dataset just because of these small number of rows could rather introduce some imbalances in our dataset rather than help much. If the number of rows with missing values were quite high such that removing those rows would be a huge/moderate data loss, then, I would have just imputed those values. However, that's not the case here, so, I have decided to remove those rows with missing values rather than impute the values for the missing data in the original game data provided.
 
 # **1.3: Plot side-by-siide bars of class distribtuion for each category for the categorical feature and the target categories.**
 
@@ -294,7 +294,7 @@ game_data[target_feature_name].value_counts()
 
 
 # Now I split the data using random splitting
-X_dev, X_test, y_dev, y_test = train_test_split(X_data, labels_data, test_size = 0.2)
+X_dev, X_test, y_dev, y_test = train_test_split(X_data, labels_data, test_size = 0.2, random_state = 2102)
 
 
 # As we can see above, I have employed "Random splitting" methodology here. This is due to the fact that the number of rows for each of the labels (flWinner) is quite well balanced in our dataset (As shown above). Also, the data is quite well balanced w.r.t the categorical variables in our dataset. In case it wasn't balanced well w.r.t the labels, we could have employed "Stratified Splitting" but as that's not the case here, I have rather used "Random Splitting" which works like a charm. Additionally, I have used the test size to be 20% as I want to maximize the data used for training and as have quite huge dataset here, we will have decent number of rows each for the training and testing procedures. 
@@ -329,7 +329,7 @@ X_dev_scaled.reset_index(drop = True, inplace = True)
 X_dev_scaled = pd.concat([X_dev_scaled, X_dev[categorical_features].reset_index(drop = True)], axis = 1)
 
 # Test data Rescaling
-X_test_scaled = pd.DataFrame(std_scaler.fit_transform(X_test[numerical_features]), columns = numerical_features)
+X_test_scaled = pd.DataFrame(std_scaler.transform(X_test[numerical_features]), columns = numerical_features)
 X_test_scaled.reset_index(drop = True, inplace = True)
 X_test_scaled = pd.concat([X_test_scaled, X_test[categorical_features].reset_index(drop = True)], axis = 1)
 
@@ -434,6 +434,7 @@ plt.show()
 
 
 # Now let's get the exact value of alpha at which we get the best accuracy
+# I am taking last 100 alphas going forward to get better insights (not taking more due to high computational time)
 best_ccp_alpha = float("-inf")
 best_max_depth = float("-inf")
 highest_score = float("-inf")
