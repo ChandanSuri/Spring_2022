@@ -10,7 +10,7 @@
 # 
 # Please push the .ipynb, .py, and .pdf to Github Classroom prior to the deadline. Please include your UNI as well.
 # 
-# Due Date : TBD
+# Due Date : 2nd April 2022
 # 
 # ### Name: Chandan Suri
 # 
@@ -134,8 +134,7 @@ from sklearn.model_selection import cross_validate
 
 lr_default_model = LogisticRegression()
 scores = cross_validate(lr_default_model, X_dev_scaled, y_dev, 
-                        cv = 5, scoring = ['roc_auc', 'average_precision'],
-                        return_estimator = True)
+                        cv = 5, scoring = ['roc_auc', 'average_precision'])
 
 print(f"The AUC values are as follows: {scores['test_roc_auc']}")
 print(f"The AUC of the default Logistic Regression model is: {scores['test_roc_auc'].mean()}")
@@ -145,8 +144,9 @@ print(f"The Average Precision of the default Logistic Regression model is: " +  
 # In[9]:
 
 
-# Get the best fitted model
-lr_default_model = scores['estimator'][3]
+# Get the fitted model
+lr_default_model = LogisticRegression()
+lr_default_model = lr_default_model.fit(X_dev_scaled, y_dev)
 
 
 # **Q5.1. Perform random under sampling on the development set. What is the shape of your development features? How many  positive and negative labels are there in your development set? (Please set random state as 42 when performing random under sampling)**
@@ -173,8 +173,7 @@ ru_sampler = RandomUnderSampler(replacement = False, random_state = 42)
 lr_under_sampled_pipeline = imb_make_pipeline(ru_sampler, LogisticRegression())
 
 scores = cross_validate(lr_under_sampled_pipeline, X_dev_scaled, y_dev, 
-                        cv = 5, scoring = ['roc_auc', 'average_precision'],
-                        return_estimator = True)
+                        cv = 5, scoring = ['roc_auc', 'average_precision'])
 
 print(f"The AUC values are as follows: {scores['test_roc_auc']}")
 print(f"The AUC of the default Logistic Regression model (& Under Sampling) is: " +       f"{scores['test_roc_auc'].mean()}")
@@ -184,8 +183,10 @@ print(f"The Average Precision of the default Logistic Regression model (& Under 
 # In[12]:
 
 
-# Get the Under sampled model from the pipeline
-lr_under_sampled_model = scores['estimator'][3][1]
+# Get the Under sampled fitted model from the pipeline
+ru_sampler = RandomUnderSampler(replacement = False, random_state = 42)
+lr_under_sampled_pipeline = imb_make_pipeline(ru_sampler, LogisticRegression())
+lr_under_sampled_model = lr_under_sampled_pipeline.fit(X_dev_scaled, y_dev)
 
 
 # **Q6.1. Perform random over sampling on the development set. What is the shape of your development features? How many positive and negative labels are there in your development set? (Please set random state as 42 when performing random over sampling)**
@@ -212,8 +213,7 @@ ro_sampler = RandomOverSampler(random_state = 42)
 lr_over_sampled_pipeline = imb_make_pipeline(ro_sampler, LogisticRegression())
 
 scores = cross_validate(lr_over_sampled_pipeline, X_dev_scaled, y_dev, 
-                        cv = 5, scoring = ['roc_auc', 'average_precision'],
-                        return_estimator = True)
+                        cv = 5, scoring = ['roc_auc', 'average_precision'])
 
 print(f"The AUC values are as follows: {scores['test_roc_auc']}")
 print(f"The AUC of the default Logistic Regression model (& Over Sampling) is: " +       f"{scores['test_roc_auc'].mean()}")
@@ -223,8 +223,10 @@ print(f"The Average Precision of the default Logistic Regression model (& Over S
 # In[15]:
 
 
-# Get the Over sampled model from the pipeline
-lr_over_sampled_model = scores['estimator'][3][1]
+# Get the Over sampled fitted model from the pipeline
+ro_sampler = RandomOverSampler(random_state = 42)
+lr_over_sampled_pipeline = imb_make_pipeline(ro_sampler, LogisticRegression())
+lr_over_sampled_model = lr_over_sampled_pipeline.fit(X_dev_scaled, y_dev)
 
 
 # **Q7.1. Perform Synthetic Minority Oversampling Technique (SMOTE) on the development set. What is the shape of your development features? How many positive and negative labels are there in your development set? (Please set random state as 42 when performing SMOTE)**
@@ -251,8 +253,7 @@ smote_sampler = SMOTE(random_state = 42)
 lr_smote_pipeline = imb_make_pipeline(smote_sampler, LogisticRegression())
 
 scores = cross_validate(lr_smote_pipeline, X_dev_scaled, y_dev, 
-                        cv = 5, scoring = ['roc_auc', 'average_precision'],
-                        return_estimator = True)
+                        cv = 5, scoring = ['roc_auc', 'average_precision'])
 
 print(f"The AUC values are as follows: {scores['test_roc_auc']}")
 print(f"The AUC of the default Logistic Regression model (& SMOTE) is: " +       f"{scores['test_roc_auc'].mean()}")
@@ -262,8 +263,10 @@ print(f"The Average Precision of the default Logistic Regression model (& SMOTE)
 # In[18]:
 
 
-# Get the model after applying SMOTE from the pipeline
-lr_smote_model = scores['estimator'][3][1]
+# Get the fitted model after applying SMOTE from the pipeline
+smote_sampler = SMOTE(random_state = 42)
+lr_smote_pipeline = imb_make_pipeline(smote_sampler, LogisticRegression())
+lr_smote_model = lr_smote_pipeline.fit(X_dev_scaled, y_dev)
 
 
 # **Q8. Plot confusion matrices on the test set for all four models above. Comment on your result.**
@@ -368,7 +371,7 @@ plt.show()
 
 # ROC Curve Analysis:
 # Looking at the ROC above for all the models trained, I can clearly see that the Default Logistic Regression will have the least AUROC and would have larger number of false positives (recall lesser) in comparison to the other models and thus, I wouldn't take this model as the final one.
-# Furthermore, the other 3 models (Logistic Regression with under sampling, over sampling and SMOTE) are quite comparable w.r.t the ROC plot above. All of them perform quite similarly with the Logistic Regression with SMOTE being the marginally best one. All of them have higher number of true positives than false negatives and also have quite a high recall. Thus, according to the ROC curve, I can choose any of the 3 models. If I have to choose, I would choose the best one which turns out to be the Logistic Regression model with SMOTE.
+# Furthermore, the other 3 models (Logistic Regression with under sampling, over sampling and SMOTE) are quite comparable w.r.t the ROC plot above. All of them perform quite similarly with the Logistic Regression with Under sampling being the marginally best one. All of them have higher number of true positives than false negatives and also have quite a high recall. Thus, according to the ROC curve, I can choose any of the 3 models. 
 
 # **Q10. Plot the precision-recall curve for all four models above in a single plot. Make sure to label the axes and legend. Comment on your result.**
 
@@ -431,7 +434,8 @@ print(f"The Average Precision of the Logistic Regression model with balanced cla
 # In[32]:
 
 
-lr_class_weights_model = scores['estimator'][1]
+lr_class_weights_model = LogisticRegression(class_weight = 'balanced')
+lr_class_weights_model = lr_class_weights_model.fit(X_dev_scaled, y_dev)
 
 
 # In[33]:
@@ -442,7 +446,7 @@ plot_confusion_matrix(lr_class_weights_model, X_test_scaled, y_test)
 plt.show()
 
 
-# Looking at the confusion matrix above, we can see that a Logistic Regression model with balanced class weights has a higher recall of 90/(90+8) = 0.918 and has lower precision 90/(90+1659) in comparison to the default logistic regression model. As for our use case, recall matters more so, we would consider the logistic regression model with balanced class weights. 
+# Looking at the confusion matrix above, we can see that a Logistic Regression model with balanced class weights has a higher recall of 90/(90+8) = 0.918 and has lower precision 90/(90+1462) in comparison to the default logistic regression model. As for our use case, recall matters more so, we would consider the logistic regression model with balanced class weights. 
 
 # **Q12. Plot the ROC and the precision-recall curve for default Logistic without any sampling method and this balanced Logistic model in two single plots. Make sure to label the axes and legend. Comment on your result.**
 
