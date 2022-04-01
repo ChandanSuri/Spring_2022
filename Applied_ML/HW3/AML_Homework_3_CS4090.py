@@ -314,23 +314,23 @@ plt.show()
 
 # Analysis of the Results: 
 # As our dataset is related to credit card fraud detection, recall matters more here in comparison to the precision. Recall for all the models above can be calculated by the confusion matrices shown above as follows:
-# 1. Default Logistic Regression: Recall: (62/62+36) = 0.633
-# 2. Logistic Regression with Random Under Sampling: Recall: (89/89+9) = 0.908
+# 1. Default Logistic Regression: Recall: (64/64+34) = 0.653
+# 2. Logistic Regression with Random Under Sampling: Recall: (90/90+8) = 0.918
 # 3. Logistic Regression with Random Over Sampling: Recall: (90/90+8) = 0.918
 # 4. Logistic Regression with SMOTE: Recall: (90/90+8) = 0.918
 # 
-# As we can see above, the Default Logistic Regression model has the least recall amongst all the 4 models above and the Logistic Regression model with Over Sampling and SMOTE has the highest recall (the same for both). 
+# As we can see above, the Default Logistic Regression model has the least recall amongst all the 4 models above and the Logistic Regression model with Under Sampling, Over Sampling and SMOTE has the highest recall (the same for both). 
 # 
 # Also, the default logistic regression model makes very good predictions for the majority class with class label 0 as most of the class labels 0 are correctly classified by it. However, the default logistic regression model has a low recall and thus, would not suit our use case very well.
 # 
-# Furthermore, although the recall is the highest for the models with Over Sampling and SMOTE, the model with under sampling has a comparable recall. But, when we see the false positives, we see that the model with under sampling gives a lot more false positives in comparison to the over sampling and SMOTE cases. Although false positives does not pose a heavy threat to our use case, but still classifying a lot more transactions as fraud can be a hassle for the users and thus, we would try to keep it down as much as possible.
+# Furthermore, the recall is the same for the models with Under Sampling, Over Sampling and SMOTE. But, when we see the false positives, we see that the model with under sampling gives a lot more false positives in comparison to the over sampling and SMOTE cases. Although false positives does not pose a heavy threat to our use case, but still classifying a lot more transactions as fraud can be a hassle for the users and thus, we would try to keep it down as much as possible.
 # 
-# The results according to the confusion matrix for both the Logistic Regression models with SMOTE and over sampling are comprabale in terms of:
-# 1. Both of them have the same recall.
-# 2. Both of them have less false positives when the recall is quite high (which we want).
-# 3. Both have decent precision as well.
+# The results according to the confusion matrix for both the Logistic Regression models with SMOTE, under and over sampling are comprabale in terms of:
+# 1. All of them have the same recall.
+# 2. All of them have less false positives when the recall is quite high (which we want).
+# 3. All have decent precision as well.
 # 
-# Thus, we can choose any of these 2 models based on the confusion matrices. However, I would go with the model training with over sampling as that has even less false positives with the same recall and nearly the same precision. This analysis is completely based on the confusion matrices above.
+# Thus, we can choose any of these 3 models based on the confusion matrices. However, I would go with the model training with over sampling as that has even least false positives with the same recall and nearly the same precision. This analysis is completely based on the confusion matrices above.
 
 # **Q9. Plot the ROC for all four models above in a single plot. Make sure to label the axes and legend. Comment on your result.**
 
@@ -653,7 +653,7 @@ plt.show()
 # **Q6. Based on the plots above, the first two principal components correspond to which aspect of the cells? What is the intrinsic dimension that they are describing?**
 
 # The first two principal components seem to correspond to the "cell_ontology" aspect of the cells.
-# Intrinsic Dimension: As we can cluster them quite visible looking at the scatter plot above based on the "cell_ontology" feature of the cell in 2 dimenions or 2 principal component, then the intrinsic dimension that it descibes is the "cell_ontology feature having 2 dimenions.
+# Intrinsic Dimension: As we can cluster them quite visible looking at the scatter plot above based on the "cell_ontology" feature of the cell in 2 dimenions or 2 principal component showing 7 clusters, then the intrinsic dimension that it descibes is the "cell_ontology feature having 2 dimenions.
 
 # ## 2 K-means
 
