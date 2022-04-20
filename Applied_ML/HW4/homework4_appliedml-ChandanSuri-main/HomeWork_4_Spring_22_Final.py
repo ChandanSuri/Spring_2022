@@ -9,7 +9,7 @@
 # 
 # ### Your UNI: CS4090
 
-# In[ ]:
+# In[1]:
 
 
 import numpy as np
@@ -37,7 +37,7 @@ pp = pprint.PrettyPrinter(indent=4)
 # 
 # Refer to the below dictionary for dimensions for each matrix
 
-# In[ ]:
+# In[2]:
 
 
 np.random.seed(0) # don't change this
@@ -52,14 +52,14 @@ X = np.random.rand(1000,2)
 Y = np.random.randint(low=0, high=2, size=(1000,))
 
 
-# In[ ]:
+# In[3]:
 
 
 def sigmoid(z):
     return 1/(1 + np.exp(-z))
 
 
-# In[ ]:
+# In[4]:
 
 
 #Implement the forward pass
@@ -78,7 +78,7 @@ def forward_propagation(X, weights):
     return Y, Z2, H, Z1
 
 
-# In[ ]:
+# In[5]:
 
 
 # Implement the backward pass
@@ -111,14 +111,14 @@ def back_propagation(X, Y_T, weights):
     return gradients, L
 
 
-# In[ ]:
+# In[6]:
 
 
 gradients, L = back_propagation(X, Y, weights)
 print(L)
 
 
-# In[ ]:
+# In[7]:
 
 
 pp.pprint(gradients)
@@ -134,7 +134,7 @@ pp.pprint(gradients)
 # 
 # We will utilize tensorflow to import the dataset, however, feel free to use any framework (TF/PyTorch) to answer the assignment questions.
 
-# In[ ]:
+# In[8]:
 
 
 from tensorflow.keras.datasets import fashion_mnist
@@ -147,7 +147,7 @@ from tensorflow.keras.datasets import fashion_mnist
 # 
 # Each image in your subplot should be labelled with the ground truth label. Get rid of the plot axes for a nicer presentation. You should also label your plots to indicate if the plotted data is from development or test set. You are given the expected output for development samples.
 
-# In[ ]:
+# In[9]:
 
 
 def plot_sampled_images(X_data, Y_data, num_rows, num_cols, title):
@@ -165,14 +165,14 @@ def plot_sampled_images(X_data, Y_data, num_rows, num_cols, title):
     plt.show()
 
 
-# In[ ]:
+# In[10]:
 
 
 # Plot dev samples
 plot_sampled_images(xdev, ydev, 5, 5, "Development Set Image Sample")
 
 
-# In[ ]:
+# In[11]:
 
 
 # Plot test samples
@@ -185,7 +185,7 @@ plot_sampled_images(xtest, ytest, 5, 5, "Test Set Image Sample")
 
 # ### 3.1.1 Print their shapes - $x_\text{dev}, y_{\text{dev}}, x_\text{test}, y_\text{test}$
 
-# In[ ]:
+# In[12]:
 
 
 # Print
@@ -197,7 +197,7 @@ print(f"Y Test Shape: {ytest.shape}")
 
 # ### 3.1.2 Flatten the images into one-dimensional vectors. Again, print out the shapes of $x_\text{dev}, x_\text{test}$
 
-# In[ ]:
+# In[13]:
 
 
 '''
@@ -216,7 +216,7 @@ end_time = time.time()
 print(f"Time taken: {end_time - start_time}")
 
 
-# In[ ]:
+# In[14]:
 
 
 # Flatten and print
@@ -231,7 +231,7 @@ print(f"X Test Shape: {xtest.shape}")
 # 
 # Note that the images are 28x28 numpy arrays, and each pixel takes value from 0 to 255.0. 0 means background (white), 255 means foreground (black).
 
-# In[ ]:
+# In[15]:
 
 
 # Standardize
@@ -244,7 +244,7 @@ xtest = xtest / 255.0
 # Encode the target variable else provide justification for not doing so. Supporting answer may contain your choice of loss function.
 # 
 
-# In[ ]:
+# In[16]:
 
 
 # answer
@@ -269,7 +269,7 @@ print(f"Test Labels Shape: {ytest.shape}")
 # 
 # Note that splitting after encoding does not causes data leakage here because we know all the classes beforehand.
 
-# In[ ]:
+# In[17]:
 
 
 # split
@@ -287,7 +287,7 @@ xtrain, xval, ytrain, yval = train_test_split(xdev, ydev, test_size = 0.2)
 # 
 # 
 
-# In[ ]:
+# In[18]:
 
 
 # build model
@@ -309,7 +309,7 @@ model.build()
 
 # ### 3.2.2 Print out the model summary
 
-# In[ ]:
+# In[19]:
 
 
 # print summary
@@ -318,7 +318,7 @@ model.summary()
 
 # ### 3.2.3 Report the total number of trainable parameters. Do you think this number is dependent on the image height and width? Only Yes/No required. 
 
-# In[ ]:
+# In[20]:
 
 
 # answer
@@ -334,7 +334,7 @@ print(f"Number of Trainable Parameters in the model is: {trainable_count}")
 
 # ### 3.2.4 Print out your model's output on first train sample. This will confirm if your dimensions are correctly set up. Is the sum of this output equal to 1 upto two decimal places?
 
-# In[ ]:
+# In[21]:
 
 
 # answer
@@ -347,7 +347,7 @@ print(f"The sum of the outputs upto 2 decimal places is: {round(sample_output.nu
 
 # ### 3.2.5 Considering the output of your model and overall objective, what loss function would you choose and why? Choose a metric for evaluation and explain the reason behind your choice.
 
-# In[ ]:
+# In[22]:
 
 
 num_classes = 10
@@ -370,7 +370,7 @@ for idx in range(num_classes):
 # 
 # Note - Use appropriate learning rate for the optimizer, you might have to try different values
 
-# In[ ]:
+# In[23]:
 
 
 # train
@@ -386,7 +386,7 @@ history = model.fit(xtrain, ytrain, batch_size = 128, epochs = 20, validation_da
 
 # ### 3.2.7 Plot two separate plots displaying train vs validation loss and train vs validation metric scores over each epoch
 
-# In[ ]:
+# In[24]:
 
 
 # plot
@@ -414,7 +414,7 @@ plt.show()
 
 # ### 3.3.1 Report metric score on test set
 
-# In[ ]:
+# In[25]:
 
 
 # evaluate
@@ -427,7 +427,7 @@ print(f"Categorical Accuracy on Test Set: {results[1]}")
 # 
 # Labels on the axes should be the original classes (0-9) and not one-hot-encoded. To achieve this, you might have to reverse transform your model's predictions. Please look into the documentation of your target encoder. Sample output is provided
 
-# In[ ]:
+# In[26]:
 
 
 # confusion matrix
@@ -455,7 +455,7 @@ plt.show()
 # 
 # For instance, an image of class 3, with predicted class 7 should have the label GT:3, P:7. Get rid of the plot axes for a nicer presentation.
 
-# In[ ]:
+# In[27]:
 
 
 # Plot with predictions
@@ -477,7 +477,7 @@ plt.show()
 # 
 # In this part of the homework, we will build and train a classical convolutional neural network, LeNet-5, on the Fashion-MNIST dataset. 
 
-# In[ ]:
+# In[28]:
 
 
 from tensorflow.keras.datasets import fashion_mnist
@@ -494,7 +494,7 @@ from tensorflow.keras.datasets import fashion_mnist
 # 
 # 3. Split development set to train and validation sets (8:2).
 
-# In[ ]:
+# In[29]:
 
 
 # TODO: Standardize the datasets
@@ -529,7 +529,7 @@ print(f"Shape of yval: {yval.shape}")
 # 6. A fully connected layer with 84 units, ReLU activation
 # 7. The output layer where each unit respresents the probability of image being in that category. What activation function should you use in this layer? (You should know this)
 
-# In[ ]:
+# In[30]:
 
 
 # TODO: build the model
@@ -563,7 +563,7 @@ lenet5_model.build()
 # 
 # Report the output dimensions of each layers of LeNet-5. **Hint:** You can report them using the model summary function that most frameworks have, or you can calculate and report the output dimensions by hand (It's actually not that hard and it's a good practice too!)
 
-# In[ ]:
+# In[31]:
 
 
 # TODO: report model output dimensions
@@ -574,7 +574,7 @@ lenet5_model.summary()
 # 
 # Train the model for 10 epochs. In each epoch, record the loss and metric (chosen in part 3) scores for both train and validation sets. Use two separate plots to display train vs validation metric scores and train vs validation loss. Finally, report the model performance on the test set. Feel free to tune the hyperparameters such as batch size and optimizers to achieve better performance.
 
-# In[ ]:
+# In[32]:
 
 
 # TODO: Train the model
@@ -588,7 +588,7 @@ lenet5_model.compile(loss = CategoricalCrossentropy(),
 history = lenet5_model.fit(xtrain, ytrain, batch_size = 128, epochs = 10, validation_data = (xval, yval))
 
 
-# In[ ]:
+# In[33]:
 
 
 # TODO: Plot accuracy and loss over epochs
@@ -615,7 +615,7 @@ axes[1].legend(['Training Accuracy', 'Validation Accuracy'], loc='upper left')
 plt.show()
 
 
-# In[ ]:
+# In[34]:
 
 
 # TODO: Report model performance on test set
@@ -627,18 +627,18 @@ print(f"Categorical Accuracy on Test Set are: {results[1]}")
 # **What do you see from the plots? Are there signs of overfitting? If so, what are 
 # the signs and what techniques can we use to combat overfitting?**
 
-# From the plot involving losses above, we can see that the training loss shows a downward trend but the validation loss decreases till epoch 6 and starts increasing after that, albeit slowly.
-# Also, from the plot involving accuracies (metric) above, we see that the training accuracies show an upward trend, but the validation accuracy first plateaus and also shows a downward trend after the 6th epoch. 
+# From the plot involving losses above, we can see that the training loss shows a downward trend till the end but the validation loss decreases till epoch 4 and starts increasing after that, albeit slowly.
+# Also, from the plot involving accuracies (metric) above, we see that the training accuracies show an upward trend, but the validation accuracy plateaus after some epochs. 
 # <br><br>
 # Signs of Overfitting:
-# 1. As the Validation loss starts showing an upward trend while the training loss is going down (after the 6th epoch), this clearly shows that our model starts to overfit at the end.
-# 2. As the Validation Accuracy increases but then starts showing some downward trend while the training accuracy goes up, this also bolsters the fact that the model is surely overfitting.
+# 1. As the Validation loss starts showing an upward trend while the training loss is going down (after the 4th epoch), this clearly shows that our model starts to overfit at the end.
+# 2. As the Validation Accuracy increases but then plateaus and starts showing some downward trend while the training accuracy goes up, this also bolsters the fact that the model is surely overfitting.
 # <br><br>
 # Common techniques to prevent overfitting are Dropout and Batch Normalization
 
 # ### 4.2.4 Report metric score on test set
 
-# In[ ]:
+# In[35]:
 
 
 # evaluate on test set
@@ -653,7 +653,7 @@ print(f"Categorical Accuracy on Test Set: {results[1]}")
 # 
 # To overcome overfitting, we will train the network again with dropout this time. For hidden layers use dropout probability of 0.5. Train the model again for 15 epochs, use two plots to display train vs validation metric scores and train vs validation loss over each epoch. Report model performance on test set. What's your observation?
 
-# In[ ]:
+# In[36]:
 
 
 # TODO: build the model with drop-out layers
@@ -667,11 +667,13 @@ lenet5_model_dropout.add(Conv2D(filters = 6, kernel_size = (5, 5),
                                 input_shape = (xtrain.shape[1], 
                                                xtrain.shape[1], 1)))
 lenet5_model_dropout.add(MaxPooling2D((2, 2)))
+lenet5_model_dropout.add(Dropout(0.5))
 
 lenet5_model_dropout.add(Conv2D(filters = 16, kernel_size = (5, 5), 
                                 strides = (1, 1), padding = "valid", 
                                 activation = "relu"))
 lenet5_model_dropout.add(MaxPooling2D((2, 2)))
+lenet5_model_dropout.add(Dropout(0.5))
 
 lenet5_model_dropout.add(Conv2D(filters = 120, kernel_size = (5, 5),
                                 activation = "relu"))
@@ -687,7 +689,7 @@ lenet5_model_dropout.add(Dense(10, activation = "softmax"))
 lenet5_model_dropout.build()
 
 
-# In[ ]:
+# In[37]:
 
 
 # TODO: train the model
@@ -696,12 +698,12 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.metrics import CategoricalAccuracy
 
 lenet5_model_dropout.compile(loss = CategoricalCrossentropy(), 
-              optimizer = Adam(learning_rate = 1e-2), 
+              optimizer = Adam(learning_rate = 1e-3), 
               metrics = [CategoricalAccuracy()])
 history = lenet5_model_dropout.fit(xtrain, ytrain, batch_size = 128, epochs = 15, validation_data = (xval, yval))
 
 
-# In[ ]:
+# In[38]:
 
 
 # TODO: plot 
@@ -728,7 +730,7 @@ axes[1].legend(['Training Accuracy', 'Validation Accuracy'], loc='upper left')
 plt.show()
 
 
-# In[ ]:
+# In[39]:
 
 
 # TODO: Report model performance on test set
@@ -739,19 +741,19 @@ print(f"Categorical Accuracy on Test Set are: {results[1]}")
 
 # **What's your observation?**
 # 
-# **Answer:** Depending on the loss curve above, the trend for the validation loss is a downward one but slighly increases at the end while the training loss decreases and then approxiamtely plateaus at the end. Furthemore, we can also see that initially, the training and validation loss drops more rapidly as compared to before.
+# **Answer:** Depending on the loss curve above, the trend for the validation loss is a downward one and at the same time the training loss decreases as well.
 # <br>
-# Also, depending on the accuracy curve above, the trend for the validation accuracy is a upward one but then plateaus and slightly decreases near the end, while the training accuracy is increasing. Interestingly, we can also see that initially, the training accuracy increases more rapidly as compared to before.
+# Also, depending on the accuracy curve above, the trend for the validation accuracy is a upward one, and the training accuracy is also increasing continuously till the end. Interestingly, we can also see that initially, the training accuracy increases more rapidly as compared to before.
 # <br>
-# Furthermore, the above trends show that the model still overfits slightly at the end.
+# From the analysis above, it's clear that our model is not overfitting in this case.
 # <br>
-# Lastly, the accuracy for the lenet-5 model has decreased by 88.169 - 85.369 = 2.8% in comparison to the original lenet-5 model. 
+# However, the accuracy for the lenet-5 model has decreased by 88.279 - 85.549 = 2.73% in comparison to the original lenet-5 model. This can be considered as a significant accuracy drop and might be attributed to the fact that we are not overfitting at all but we have lost accuracy points.
 
 # ### 4.3.2 Batch Normalization
 # 
 # This time, let's apply a batch normalization after every hidden layer, train the model for 15 epochs, plot the metric scores and loss values, and report model performance on test set as above. Compare this technique with the original model and with dropout, which technique do you think helps with overfitting better?
 
-# In[ ]:
+# In[40]:
 
 
 # TODO: build the model with batch normalization layers
@@ -764,11 +766,13 @@ lenet5_model_bn.add(Conv2D(filters = 6, kernel_size = (5, 5),
                  input_shape = (xtrain.shape[1], xtrain.shape[1], 1)))
 lenet5_model_bn.add(Activation("relu"))
 lenet5_model_bn.add(MaxPooling2D((2, 2)))
+lenet5_model_bn.add(BatchNormalization())
 
 lenet5_model_bn.add(Conv2D(filters = 16, kernel_size = (5, 5), 
                  strides = (1, 1), padding = "valid"))
 lenet5_model_bn.add(Activation("relu"))
 lenet5_model_bn.add(MaxPooling2D((2, 2)))
+lenet5_model_bn.add(BatchNormalization())
 
 lenet5_model_bn.add(Conv2D(filters = 120, kernel_size = (5, 5)))
 lenet5_model_bn.add(Activation("relu"))
@@ -785,7 +789,7 @@ lenet5_model_bn.add(Dense(10, activation = "softmax"))
 lenet5_model_bn.build()
 
 
-# In[ ]:
+# In[41]:
 
 
 # TODO: train the model
@@ -799,7 +803,7 @@ lenet5_model_bn.compile(loss = CategoricalCrossentropy(),
 history = lenet5_model_bn.fit(xtrain, ytrain, batch_size = 128, epochs = 15, validation_data = (xval, yval))
 
 
-# In[ ]:
+# In[42]:
 
 
 # TODO: plot
@@ -826,7 +830,7 @@ axes[1].legend(['Training Accuracy', 'Validation Accuracy'], loc='upper left')
 plt.show()
 
 
-# In[ ]:
+# In[43]:
 
 
 # TODO: Report model performance on test set
@@ -837,8 +841,10 @@ print(f"Categorical Accuracy on Test Set are: {results[1]}")
 
 # **Observation, comparison with Dropout:**
 # 
-# **Answer**: As we can see above, the plot for the losses shows the validation loss with a generic downward trend with some spikes and increases a little at the end, while the training loss shows a strong downward trend till the end. Also, from the accuracy curves, we can see that the validation accuracy plateaus at the end while the training accuracy shows a strong upward trend. This shows us that the model with batch normalization performs quite better in comparison to the original lenet model and the model with dropout. 
+# **Answer**: As we can see above, the plot for the losses shows the validation loss with a generic downward trend with some spikes and increases a little at the end (showing an upward trend), while the training loss shows a strong downward trend till the end. Also, from the accuracy curves, we can see that the validation accuracy plateaus at the end while the training accuracy shows a strong upward trend. Also, as the accuracy for the model with batch normalization (90.219%) has increased from the lenet-5 model (88.279%). This shows us that the model with batch normalization performs quite better in comparison to the original lenet model and also the model with dropout. However, this model overfits a lot.
 # <br>
-# Furthermore, the accuracy is 87.98% which is quite comparable, albeit a little less, with that of the original lenet model which has an accuracy of 88.16%. Also, the accuray for the model with batch normalization is more than the accuracy for the model with dropout. 
+# Furthermore, the accuracy is 90.219% which is quite larger, albeit a little, with that of the original lenet model which has an accuracy of 88.279%. Also, the accuray for the model with batch normalization is more than the accuracy for the model with dropout. 
 # <br>
-# Looking at the trends and the performance metric, we can deduce that the model with batch normalization helps with overfitting more efficiently in comparison to the dropout in this case.
+# Looking at the trends and the performance metric, we can deduce that the model with batch normalization helps little with overfitting in comparison to the dropout in this case. Although, this model (with BN) reaches the highest accuracy but overfits a lot. Thus, the model with dropout in this case helps us in preventing the overfitting of the model (better than batch normalization) but at the cost of the accuracy drop.
+
+# PLEASE NOTE: I went to Angad's OH and I asked him the same and he suggested me to do the Dropout and Batch Normalization in this way. Thank You!
