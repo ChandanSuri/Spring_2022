@@ -217,49 +217,49 @@ test_text = stem_sentences(test_text)
 
 # **1.9) Create bag of words features for each tweet in the development dataset**
 
-# In[21]:
+# In[26]:
 
 
 count_vectorizer = CountVectorizer()
 dev_X = count_vectorizer.fit_transform(dev_text)
-test_X = count_vectorizer.transform(test_text)
+test_cv_X = count_vectorizer.transform(test_text)
 
 
 # **1.10) Train a supervised learning model of choice on the development dataset**
 
-# In[22]:
+# In[27]:
 
 
-lr_model_bow = LogisticRegressionCV(max_iter = 750, random_state = random_seed)
+lr_model_bow = LogisticRegressionCV(max_iter = 750, cv = 5, random_state = random_seed)
 lr_model_bow = lr_model_bow.fit(dev_X, dev_y)
 
 
 # **1.11) Create TF-IDF features for each tweet in the development dataset**
 
-# In[23]:
+# In[28]:
 
 
 tfidf_vectorizer = TfidfVectorizer()
 dev_X = tfidf_vectorizer.fit_transform(dev_text)
-test_X = tfidf_vectorizer.transform(test_text)
+test_tfidf_X = tfidf_vectorizer.transform(test_text)
 
 
 # **1.12) Train the same supervised learning algorithm on the development dataset with TF-IDF features**
 
-# In[24]:
+# In[29]:
 
 
-lr_model_tfidf = LogisticRegressionCV(max_iter = 750, random_state = random_seed)
+lr_model_tfidf = LogisticRegressionCV(max_iter = 750, cv = 5, random_state = random_seed)
 lr_model_tfidf = lr_model_tfidf.fit(dev_X, dev_y)
 
 
 # **1.13) Compare the performance of the two models on the test dataset**
 
-# In[25]:
+# In[30]:
 
 
-print(f"The Accuracy Score for the Model (BOW) on Test Set is : {lr_model_bow.score(test_X, test_y)*100}%")
-print(f"The Accuracy Score for the Model (TFIDF) on Test Set is : {lr_model_tfidf.score(test_X, test_y)*100}%")
+print(f"The Accuracy Score for the Model (BOW) on Test Set is : {lr_model_bow.score(test_cv_X, test_y)*100}%")
+print(f"The Accuracy Score for the Model (TFIDF) on Test Set is : {lr_model_tfidf.score(test_tfidf_X, test_y)*100}%")
 
 
 # As seen above, the model is performing better with the TFIDF Vectorizer than the bag of words.
